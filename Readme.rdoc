@@ -1,0 +1,9 @@
+= uki tools
+
+Project creation, dev server, testing, building for uki apps
+
+== Get started
+[sudo] gem install uki
+uki new project myapp +jspec
+cd myapp
+uki runserver

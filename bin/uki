@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+UKI_ROOT = File.expand_path File.join(File.dirname(__FILE__), '..')
+
+require 'rubygems'
+require 'commander/import'
+require File.join(UKI_ROOT, 'lib', 'uki')
+
+program :name, 'uki tools'
+program :version, '1.0.0'
+program :description, 'Project creation, dev server, testing, building for uki apps'
+
+
+command :"new project" do |c|
+  c.syntax = 'uki new project <name>'
+  c.summary = 'Creates a new uki project template'
+  c.description = 'Crates a uki project template with <name>.
+    The template includes uki framework, cotainer html, project files
+    and directrory structure. 
+    
+    Additionaly JSpec can be installed with --jspec option
+    
+    To update a project to the recent version of uki use
+    `uki help update` for more information.'
+  c.option '-j', '-jspec', 'Install JSpec into the project template'
+  
+  c.action do |args, options|
+    
+  end
+end
+
+
