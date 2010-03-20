@@ -1,0 +1,3 @@
+[submodule "frameworks/uki"]
+	path = frameworks/uki
+	url = git://github.com/voloko/uki.git

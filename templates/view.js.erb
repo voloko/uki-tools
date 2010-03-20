@@ -1,0 +1,10 @@
+include('../<?= package_name.sub(/.*\./, '') %>');
+
+uki.view.declare('<?= package_name ?>.<?= class_name ?>', uki.view.Base, function(Base) {
+    
+   this._createDom = function() {
+       Base._createDom.call(this);
+       // add your custom code here
+   }; 
+   
+});

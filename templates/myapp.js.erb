@@ -1,0 +1,38 @@
+(function() {
+// all core modules
+include('frameworks/uki/uki-core.js');
+
+// used views, comment out unused ones
+include('frameworks/uki/uki-view/view/box.js');
+include('frameworks/uki/uki-view/view/image.js');
+include('frameworks/uki/uki-view/view/button.js');
+include('frameworks/uki/uki-view/view/checkbox.js');
+include('frameworks/uki/uki-view/view/radio.js');
+include('frameworks/uki/uki-view/view/textField.js');
+include('frameworks/uki/uki-view/view/label.js');
+include('frameworks/uki/uki-view/view/list.js');
+include('frameworks/uki/uki-view/view/table.js');
+include('frameworks/uki/uki-view/view/slider.js');
+include('frameworks/uki/uki-view/view/splitPane.js');
+include('frameworks/uki/uki-view/view/scrollPane.js');
+include('frameworks/uki/uki-view/view/popup.js');
+include('frameworks/uki/uki-view/view/flow.js');
+include('frameworks/uki/uki-view/view/toolbar.js');
+
+// theme
+include('frameworks/uki/uki-theme/airport.js');
+
+uki.theme.airport.imagePath = 'i/';
+
+
+
+<%= project_name %> = {};
+
+uki({ view: 'Button', rect: '100 20 100 22', anchors: '', text: 'Hello world!' })
+    .attachTo(window, '300 62');
+    
+uki('Button').click(function() {
+    alert(this.text());
+});
+
+})();

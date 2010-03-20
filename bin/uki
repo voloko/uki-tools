@@ -8,25 +8,87 @@ require File.join(UKI_ROOT, 'lib', 'uki')
 
 program :name, 'uki tools'
 program :version, '1.0.0'
-program :description, 'Project creation, dev server, testing, building for uki apps'
+program :description, 'uki development tools'
 
 
 command :"new project" do |c|
-  c.syntax = 'uki new project <name>'
-  c.summary = 'Creates a new uki project template'
-  c.description = 'Crates a uki project template with <name>.
+  c.syntax = 'uki new project <dest>'
+  c.summary = 'Create uki project'
+  c.description = 'Create uki project template within <dest> folder.
     The template includes uki framework, cotainer html, project files
-    and directrory structure. 
+    and directrories. 
     
-    Additionaly JSpec can be installed with --jspec option
-    
-    To update a project to the recent version of uki use
-    `uki help update` for more information.'
+    Additionaly JSpec can be installed with --jspec option'
   c.option '-j', '-jspec', 'Install JSpec into the project template'
   
-  c.action do |args, options|
+  c.when_called do |args, options|
+    dest = args.shift or raise 'Project name required'
+    project = Uki::Project.new(dest)
+    project.create
+    say "Uki project crated at `#{dest}'"
+  end
+end
+
+command :'new view' do |c|
+  c.syntax = 'uki new view <name>'
+  c.summary = 'Create uki view'
+  c.description = "Create template for uki view with given <name> 
+    and add include to the project file"
+  c.example "Create myapp.view.MyView", "uki new view MyView"
+  c.example "Create view in arbitary package", "uki new view mypackage.MyView"
+  
+  c.when_called do |args, options|
     
   end
 end
 
+command :'new model' do |c|
+  c.syntax = 'uki new view <name>'
+  c.summary = 'Create uki model'
+  c.description = "Create template for uki model with given <name> 
+    and add include to the project file"
+  c.example "Create myapp.model.MyModel", "uki new model MyModel"
+  c.example "Create view in arbitary package", "uki new model mypackage.MyModel"
+  
+  c.when_called do |args, options|
+    
+  end
+end
+
+command :run do |c|
+  c.syntax = 'uki run [host[:port]]'
+  c.summary = 'Run development server'
+  c.description = 'Run development server on [host]:[port].
+    Server can process .cjs calls to merge javascript files.
+    
+    You can add aditional processing to the server by creating server.rb 
+    in your project root. Then use sinatra (http://sinatrarb.com) routes'
+    
+  c.when_called do |args, options|
+    require 'uki/server.rb'
+    server = Uki::Server.new(args.shift)
+    require 'server.rb' if File.exists? 'server.rb'
+    server.start!
+  end
+end
+
+command :build do |c|
+  c.syntax = 'uki build [target]'
+  c.summary = 'Build current project'
+  c.description = 'Process all javascripts included in the index.html file.
+    Merges all include() in them and then runs them through
+    Google Closure Compiler.
+    
+    You can disable the Compiler with --nocompiler option.
+    
+    By default resulting files will be put into build directory. You may
+    override it with [target] option'
+  c.option '-C', '--nocompiler', 'Disable Google Closure Compiler'
+  c.when_called do |args, option|
+    target = args.shift || 'build'
+    project = Uki::Project.new('.')
+    project.build target, :compile => !option.nocompiler
+    say "Build complete at `#{target}'"
+  end
+end
 
