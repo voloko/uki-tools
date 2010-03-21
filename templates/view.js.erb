@@ -1,6 +1,6 @@
-include('../<?= package_name.sub(/.*\./, '') %>');
+<% if package_name %>include('../<%= package_name.sub(/.*\./, '') %>.js');<% end %>
 
-uki.view.declare('<?= package_name ?>.<?= class_name ?>', uki.view.Base, function(Base) {
+uki.view.declare('<%= "#{package_name}." if package_name %><%= class_name %>', uki.view.Base, function(Base) {
     
    this._createDom = function() {
        Base._createDom.call(this);

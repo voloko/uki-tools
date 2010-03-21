@@ -11,6 +11,10 @@ class Uki::Project
     @dest = dest
   end
   
+  def name
+    File.basename File.expand_path(dest)
+  end
+  
   def create
     verify_empty
     init_dest
@@ -28,8 +32,50 @@ class Uki::Project
     build_js cjs, target, options
     build_images target, options
   end
+  
+  def create_class template, fullName
+    path = fullName.split('.')
+    create_packages path[0..-2]
+    write_class template, path
+  end
 
   protected
+    def write_class template, path
+      package_name = path[0..-2].join('.')
+      class_name = path[-1]
+      class_name = class_name[0,1].upcase + class_name[1..-1]
+      file_name = class_name[0,1].downcase + class_name[1..-1]
+      target = File.join *(path[0..-2] + [file_name])
+      target += '.js'
+      File.open(File.join(dest, target), 'w') do |f|
+        f.write template(template).result(binding)
+      end
+      add_include(target)
+    end
+  
+    def add_include path
+      target = File.join(dest, "#{name}.js")
+      includes = Uki.extract_includes target
+      unless includes.include? path
+        Uki.append_include(target, path)
+      end
+    end
+    
+    def create_packages path
+      current = []
+      path.each do |dir|
+        current << dir
+        package_name = current.join('.')
+        target = File.join(dest, *current)
+        FileUtils.mkdir_p target unless File.exists?(target)
+        unless File.exists?("#{target}.js")
+          File.open("#{target}.js", 'w') do |f|
+            f.write template('package.js').result(binding)
+          end
+        end
+      end
+    end
+  
     def build_js cjs, target, options
       cjs.each do |c|
         c = c.sub('.cjs', '.js')
@@ -94,11 +140,11 @@ class Uki::Project
         f.write template('myapp.js').result(binding)
       end
       File.open(File.join(dest, project_name, 'view.js'), 'w') do |f|
-        package_name = 'view'
+        package_name = "#{project_name}.view"
         f.write template('package.js').result(binding)
       end
       File.open(File.join(dest, project_name, 'model.js'), 'w') do |f|
-        package_name = 'model'
+        package_name = "#{project_name}.model"
         f.write template('package.js').result(binding)
       end
     end

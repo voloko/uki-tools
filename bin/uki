@@ -38,7 +38,11 @@ command :'new view' do |c|
   c.example "Create view in arbitary package", "uki new view mypackage.MyView"
   
   c.when_called do |args, options|
-    
+    path = args.shift or raise 'View name required'
+    project = Uki::Project.new('.')
+    path = "#{project.name}.view.#{path}"
+    project.create_class 'view.js', path 
+    say "View #{path} created"
   end
 end
 
@@ -51,7 +55,11 @@ command :'new model' do |c|
   c.example "Create view in arbitary package", "uki new model mypackage.MyModel"
   
   c.when_called do |args, options|
-    
+    path = args.shift or raise 'Model name required'
+    project = Uki::Project.new('.')
+    path = "#{project.name}.model.#{path}"
+    project.create_class 'model.js', path 
+    say "Model #{path} created"
   end
 end
 

@@ -1,4 +1,7 @@
 (function() {
+// define namespace
+<%= project_name %> = {};
+
 // all core modules
 include('frameworks/uki/uki-core.js');
 
@@ -22,11 +25,11 @@ include('frameworks/uki/uki-view/view/toolbar.js');
 // theme
 include('frameworks/uki/uki-theme/airport.js');
 
+// data
+include('frameworks/uki/uki-data/model.js');
+
+
 uki.theme.airport.imagePath = 'i/';
-
-
-
-<%= project_name %> = {};
 
 uki({ view: 'Button', rect: '100 20 100 22', anchors: '', text: 'Hello world!' })
     .attachTo(window, '300 62');
