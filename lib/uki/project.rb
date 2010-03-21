@@ -15,12 +15,13 @@ class Uki::Project
     File.basename File.expand_path(dest)
   end
   
-  def create
+  def create options
     verify_empty
     init_dest
     copy_frameworks
     copy_templates
     copy_images
+    init_jspec if options[:jspec]
   end
   
   def build target, options = {}
@@ -160,9 +161,25 @@ class Uki::Project
       FileUtils.cp_r File.join(path_to_uki_src, '.'), frameworks_dest
     end
     
+    def init_jspec
+      FileUtils.mkdir_p File.join(dest, 'spec')
+      FileUtils.cp_r path_to_jspec_lib, File.join(dest, 'frameworks', 'jspec')
+      
+      File.open(File.join(dest, 'spec.html'), 'w') do |f|
+        f.write template('spec.html').result(binding)
+      end
+      File.open(File.join(dest, 'spec', 'spec.js'), 'w') do |f|
+        f.write template('spec.js').result(binding)
+      end
+    end
+    
     def template name
       path = File.join(UKI_ROOT, 'templates', "#{name}.erb")
       ERB.new File.read(path)
+    end
+    
+    def path_to_jspec_lib
+      File.join(UKI_ROOT, 'frameworks', 'jspec', 'lib')
     end
     
     def path_to_uki_src

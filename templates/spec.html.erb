@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="frameworks/jspec/jspec.css" />
+		<script src="frameworks/jspec/jspec.js"></script>
+		<script src="frameworks/jspec/jspec.xhr.js"></script>
+		<script src="spec/spec.helper.js"></script>
+		<script>
+		    window.TESTING = true;
+			function runSuites() {
+				JSpec
+				.exec('spec/spec.js')
+				.run({ fixturePath: 'fixtures' })
+				.report()
+			}
+		</script>
+	</head>
+	<body class="jspec" onLoad="runSuites();">
+		<script src="<%= name %>.cjs"></script>
+		<div id="jspec-top"><h2 id="jspec-title">JSpec <em><script>document.write(JSpec.version)</script></em></h2></div>
+		<div id="jspec"></div>
+		<div id="jspec-bottom"></div>
+	</body>
+</html>

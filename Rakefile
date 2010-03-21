@@ -10,6 +10,8 @@ begin
     gem.email = "voloko@gmail.com"
     gem.homepage = "http://github.com/voloko/uki"
     gem.authors = ["Vladimir Kolesnikov"]
+    
+    gem.files.include 'frameworks/**/*.*'
 
     gem.add_runtime_dependency(%q<sinatra>, [">= 0"])
     gem.add_runtime_dependency(%q<commander>, [">= 4.0.1"])

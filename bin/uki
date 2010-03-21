@@ -18,13 +18,13 @@ command :"new project" do |c|
     The template includes uki framework, cotainer html, project files
     and directrories. 
     
-    Additionaly JSpec can be installed with --jspec option'
-  c.option '-j', '-jspec', 'Install JSpec into the project template'
+    Additionaly JSpec will be installed. You can prevent that with --nojspec option'
+  c.option '-J', '--nojspec', 'Install JSpec into the project template'
   
   c.when_called do |args, options|
     dest = args.shift or raise 'Project name required'
     project = Uki::Project.new(dest)
-    project.create
+    project.create :jspec => !options.nojspec
     say "Uki project crated at `#{dest}'"
   end
 end
