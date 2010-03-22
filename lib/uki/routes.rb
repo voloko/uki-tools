@@ -1,4 +1,4 @@
-get %r{\.cjs$} do |path|
+get %r{\.cjs$} do
   path = request.path.sub(/\.cjs$/, '.js').sub(%r{^/}, './')
   pass unless File.exists? path
   
