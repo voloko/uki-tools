@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Vladimir Kolesnikov"]
-  s.date = %q{2010-03-21}
+  s.date = %q{2010-03-22}
   s.default_executable = %q{uki}
   s.description = %q{Project creation, dev server, testing, building for uki apps}
   s.email = %q{voloko@gmail.com}
@@ -55,6 +55,7 @@ Gem::Specification.new do |s|
      "frameworks/uki/spec/support/spec.helper.js",
      "frameworks/uki/spec/unit/background.spec.js",
      "frameworks/uki/spec/unit/builder.spec.js",
+     "frameworks/uki/spec/unit/data/model.spec.js",
      "frameworks/uki/spec/unit/dom.spec.js",
      "frameworks/uki/spec/unit/dom/dnd.spec.js",
      "frameworks/uki/spec/unit/dom/event.spec.js",
@@ -99,6 +100,10 @@ Gem::Specification.new do |s|
      "frameworks/uki/src/uki-core/view/observable.js",
      "frameworks/uki/src/uki-core/view/styleable.js",
      "frameworks/uki/src/uki-core/view/utils.js",
+     "frameworks/uki/src/uki-data.js",
+     "frameworks/uki/src/uki-data/data.js",
+     "frameworks/uki/src/uki-data/model.js",
+     "frameworks/uki/src/uki-data/observable.js",
      "frameworks/uki/src/uki-more.js",
      "frameworks/uki/src/uki-more/more.js",
      "frameworks/uki/src/uki-more/more/utils.js",
@@ -243,7 +248,10 @@ Gem::Specification.new do |s|
      "templates/model.js.erb",
      "templates/myapp.js.erb",
      "templates/package.js.erb",
-     "templates/view.js.erb"
+     "templates/spec.html.erb",
+     "templates/spec.js.erb",
+     "templates/view.js.erb",
+     "uki.gemspec"
   ]
   s.homepage = %q{http://github.com/voloko/uki}
   s.rdoc_options = ["--charset=UTF-8"]
