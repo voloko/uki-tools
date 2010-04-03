@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{uki}
-  s.version = "1.0.1"
+  s.version = "1.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Vladimir Kolesnikov"]
-  s.date = %q{2010-03-29}
+  s.date = %q{2010-04-04}
   s.default_executable = %q{uki}
   s.description = %q{Project creation, dev server, testing, building for uki apps}
   s.email = %q{voloko@gmail.com}
@@ -245,7 +245,9 @@ Gem::Specification.new do |s|
      "lib/uki/project.rb",
      "lib/uki/routes.rb",
      "lib/uki/server.rb",
+     "templates/controller.js.erb",
      "templates/index.html.erb",
+     "templates/layout.js.erb",
      "templates/model.js.erb",
      "templates/myapp.js.erb",
      "templates/package.js.erb",
