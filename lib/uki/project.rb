@@ -40,13 +40,32 @@ class Uki::Project
     write_class template, path
   end
 
+  def create_function template, fullName
+    path = fullName.split('.')
+    create_packages path[0..-2]
+    write_function template, path
+  end
+  
   protected
     def write_class template, path
       package_name = path[0..-2].join('.')
-      class_name = path[-1]
-      class_name = class_name[0,1].upcase + class_name[1..-1]
-      file_name = class_name[0,1].downcase + class_name[1..-1]
-      target = File.join *(path[0..-2] + [file_name])
+      class_name   = path[-1]
+      class_name   = class_name[0,1].upcase + class_name[1..-1]
+      file_name    = class_name[0,1].downcase + class_name[1..-1]
+      target       = File.join *(path[0..-2] + [file_name])
+      target += '.js'
+      File.open(File.join(dest, target), 'w') do |f|
+        f.write template(template).result(binding)
+      end
+      add_include(target)
+    end
+    
+    def write_function template, path
+      package_name  = path[0..-2].join('.')
+      function_name = path[-1]
+      function_name = function_name[0,1].downcase   + function_name[1..-1]
+      file_name     = function_name
+      target        = File.join *(path[0..-2] + [file_name])
       target += '.js'
       File.open(File.join(dest, target), 'w') do |f|
         f.write template(template).result(binding)
@@ -128,7 +147,7 @@ class Uki::Project
   
     def init_dest
       FileUtils.mkdir_p File.join(dest, project_name)
-      ['view', 'model'].each do |name| 
+      ['view', 'model', 'layout', 'controller'].each do |name| 
         FileUtils.mkdir_p File.join(dest, project_name, name)
       end
     end
@@ -140,14 +159,16 @@ class Uki::Project
       File.open(File.join(dest, "#{project_name}.js"), 'w') do |f|
         f.write template('myapp.js').result(binding)
       end
-      File.open(File.join(dest, project_name, 'view.js'), 'w') do |f|
-        package_name = "#{project_name}.view"
-        f.write template('package.js').result(binding)
+      
+      create_function 'layout.js', "#{project_name}.layout.main"
+      
+      ['view', 'model', 'layout', 'controller'].each do |name|
+        File.open(File.join(dest, project_name, "#{name}.js"), 'w') do |f|
+          package_name = "#{project_name}.#{name}"
+          f.write template('package.js').result(binding)
+        end
       end
-      File.open(File.join(dest, project_name, 'model.js'), 'w') do |f|
-        package_name = "#{project_name}.model"
-        f.write template('package.js').result(binding)
-      end
+      
     end
     
     def project_name

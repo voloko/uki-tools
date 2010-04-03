@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{uki}
-  s.version = "1.0.0"
+  s.version = "1.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Vladimir Kolesnikov"]
-  s.date = %q{2010-03-22}
+  s.date = %q{2010-03-29}
   s.default_executable = %q{uki}
   s.description = %q{Project creation, dev server, testing, building for uki apps}
   s.email = %q{voloko@gmail.com}
@@ -101,6 +101,7 @@ Gem::Specification.new do |s|
      "frameworks/uki/src/uki-core/view/styleable.js",
      "frameworks/uki/src/uki-core/view/utils.js",
      "frameworks/uki/src/uki-data.js",
+     "frameworks/uki/src/uki-data/ajax.js",
      "frameworks/uki/src/uki-data/data.js",
      "frameworks/uki/src/uki-data/model.js",
      "frameworks/uki/src/uki-data/observable.js",
@@ -109,9 +110,9 @@ Gem::Specification.new do |s|
      "frameworks/uki/src/uki-more/more/utils.js",
      "frameworks/uki/src/uki-more/more/view.js",
      "frameworks/uki/src/uki-more/more/view/listContainer.js",
-     "frameworks/uki/src/uki-more/more/view/multiselectList.js",
      "frameworks/uki/src/uki-more/more/view/radioButton.js",
      "frameworks/uki/src/uki-more/more/view/splitTable.js",
+     "frameworks/uki/src/uki-more/more/view/splitTable/render.js",
      "frameworks/uki/src/uki-more/more/view/toggleButton.js",
      "frameworks/uki/src/uki-more/more/view/treeList.js",
      "frameworks/uki/src/uki-more/more/view/treeList/render.js",
@@ -256,7 +257,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/voloko/uki}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.6}
   s.summary = %q{uki development tools}
 
   if s.respond_to? :specification_version then

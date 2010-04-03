@@ -34,8 +34,7 @@ uki.theme.airport.imagePath = 'i/';
 // skip interface creation if we're testing
 if (window.TESTING) return;
 
-uki({ view: 'Button', rect: '100 20 100 22', anchors: '', text: 'Hello world!' })
-    .attachTo(window, '300 62');
+<%= project_name %>.layout.main().attachTo(window, '300 62');
 
 uki('Button').click(function() {
     alert(this.text());

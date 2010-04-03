@@ -7,7 +7,7 @@ require 'commander/import'
 require File.join(UKI_ROOT, 'lib', 'uki')
 
 program :name, 'uki tools'
-program :version, '1.0.0'
+program :version, File.read(File.join(UKI_ROOT, 'VERSION'))
 program :description, 'uki development tools'
 
 
@@ -60,6 +60,40 @@ command :'new model' do |c|
     path = "#{project.name}.model.#{path}"
     project.create_class 'model.js', path 
     say "Model #{path} created"
+  end
+end
+
+command :'new layout' do |c|
+  c.syntax = 'uki new layout <name>'
+  c.summary = 'Create uki layout'
+  c.description = "Create template for uki layout with given <name> 
+    and add include to the project file"
+  c.example "Create myapp.layout.editor()", "uki new layout editor"
+  c.example "Create view in arbitary package", "uki new layout mypackage.editor"
+  
+  c.when_called do |args, options|
+    path = args.shift or raise 'Layout name required'
+    project = Uki::Project.new('.')
+    path = "#{project.name}.layout.#{path}"
+    project.create_function 'layout.js', path 
+    say "Layout #{path} created"
+  end
+end
+
+command :'new controller' do |c|
+  c.syntax = 'uki new controller <name>'
+  c.summary = 'Create uki controller'
+  c.description = "Create template for uki controller with given <name> 
+    and add include to the project file"
+  c.example "Create myapp.controller.editor()", "uki new controller editor"
+  c.example "Create view in arbitary package", "uki new controller mypackage.editor"
+  
+  c.when_called do |args, options|
+    path = args.shift or raise 'Controller name required'
+    project = Uki::Project.new('.')
+    path = "#{project.name}.controller.#{path}"
+    project.create_function 'controller.js', path 
+    say "Controller #{path} created"
   end
 end
 
