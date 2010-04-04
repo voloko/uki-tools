@@ -3,7 +3,11 @@
 Project creation, dev server, testing, building for uki apps
 
 == Get started
+1. Install ruby and rubygems (on Windows go to http://rubyinstaller.org/)
+2. Install uki
     [sudo] gem install uki
+3. Use uki command
+    uki --help
     uki new project myapp +jspec
     cd myapp
-    uki runserver
+    uki run
