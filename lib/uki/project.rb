@@ -4,6 +4,7 @@ require 'erb'
 require 'pathname'
 require 'uki/include_js'
 require 'base64'
+require 'digest/md5'
 
 class Uki::Project
   attr_accessor :dest
@@ -30,8 +31,8 @@ class Uki::Project
     init_target target
     containers = find_containers
     cjs = extract_cjs(containers)
-    build_containers containers, target, options
     build_js cjs, target, options
+    build_containers containers, target, options
     build_images target, options
   end
   
@@ -134,8 +135,9 @@ class Uki::Project
   
     def build_containers containers, target, options
       containers.each do |c|
-        code = File.read(c).gsub(%r{=\s*["']?([^"' ]+.cjs)}) do |match|
-          match.sub('.cjs', '.js')
+        code = File.read(c).gsub(%r{=\s*["']?(([^"' ]+).cjs)}) do |match|
+          md5 = Digest::MD5.file(File.join(target, "#{$2}.js")).hexdigest
+          match.sub('.cjs', ".js?#{md5}")
         end
         File.open(File.join(target, File.basename(c)), 'w') do |f|
           f.write code
