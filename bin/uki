@@ -130,7 +130,24 @@ command :build do |c|
     target = args.shift || 'build'
     project = Uki::Project.new('.')
     project.build target, :compile => !option.nocompiler
-    say "Build complete at `#{target}'"
+    say "Build complete at '#{target}'"
   end
+end
+
+command :ie_images do |c|
+  c.syntax = 'uki ie_images [file]'
+  c.summary = 'Creates image files for IE6,7'
+  c.description = 'Creates image files for IE6,7 from
+    data urls in the theme file.
+    
+    [file] defaults to <project_name>/theme.js
+  '
+  c.when_called do |args, option|
+    project = Uki::Project.new('.')
+    target = args.shift || File.join(project.name, 'theme.js')
+    place = project.ie_images target
+    say "IE images are at #{place}"
+  end
+  
 end
 

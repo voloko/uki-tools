@@ -3,6 +3,7 @@ require 'commander/import'
 require 'erb'
 require 'pathname'
 require 'uki/include_js'
+require 'base64'
 
 class Uki::Project
   attr_accessor :dest
@@ -44,6 +45,22 @@ class Uki::Project
     path = fullName.split('.')
     create_packages path[0..-2]
     write_function template, path
+  end
+  
+  def ie_images target
+    contents = File.read(File.join(dest, target))
+    place = File.join(dest, 'tmp', 'theme')
+    # button-full/normal-v.png
+    contents.scan(%r{\[[^"]*"([^"]+)"[^"]+"data:image/png;base64,([^"]+)"[^"\]]*(?:"([^"]+)"[^"\]]*)?\]}) do
+      p $1
+      file = File.join(place, $1)
+      FileUtils.mkdir_p File.dirname(file)
+      File.open(file, 'w') do |f| 
+        f.write Base64.decode64($2)
+      end
+      `convert #{File.join(place, $1)} #{File.join(place, $3)}` if $3
+    end
+    place
   end
   
   protected
