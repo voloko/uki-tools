@@ -2,7 +2,7 @@ require 'json'
 
 module Uki
   
-  INCLUDE_REGEXP = %r{((?:^|\n)[^\n]\W|^|\n)include\s*\(\s*['"]([^"']+)["']\s*\)(?:\s*;)?(.*?\r?\n|$)}
+  INCLUDE_REGEXP = %r{((?:^|\n)[^\n]\W|^|\n)\s*include\s*\(\s*['"]([^"']+)["']\s*\)(?:\s*;)?(.*?\r?\n|$)}
   INCLUDE_STRING_REGEXP = %r{include_string\s*\(\s*['"]([^"']+)["']\s*\)}
   
   #
