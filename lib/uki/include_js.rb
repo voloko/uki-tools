@@ -1,6 +1,9 @@
+require 'json'
+
 module Uki
   
   INCLUDE_REGEXP = %r{((?:^|\n)[^\n]\W|^|\n)include\s*\(\s*['"]([^"']+)["']\s*\)(?:\s*;)?(.*?\r?\n|$)}
+  INCLUDE_STRING_REGEXP = %r{include_string\s*\(\s*['"]([^"']+)["']\s*\)}
   
   #
   # Preprocesses include() calls in js files
@@ -21,7 +24,13 @@ module Uki
           $1 + $3
         end
       end
+    end.gsub(INCLUDE_STRING_REGEXP) do |match|
+      include_string File.join(base, $1)
     end
+  end
+  
+  def self.include_string path
+    JSON.dump File.read(path)
   end
   
   def self.extract_includes path
