@@ -115,22 +115,30 @@ command :run do |c|
 end
 
 command :build do |c|
-  c.syntax = 'uki build [target]'
+  c.syntax = 'uki build [file1 [, file2]]'
   c.summary = 'Build current project'
-  c.description = 'Process all javascripts included in the index.html file.
-    Merges all include() in them and then runs them through
-    Google Closure Compiler.
+  c.description = 'Merges and compresses javascript files.
+    Merges all include() and include_css() in js files. Merged output
+    is processed through google clousure compiler. Supports .js and .html 
+    files as parameters. 
     
-    You can disable the Compiler with --nocompiler option.
+    By default builds index.html file in current directory and puts them into
+    build dir.
     
-    By default resulting files will be put into build directory. You may
-    override it with [target] option'
-  c.option '-C', '--nocompiler', 'Disable Google Closure Compiler'
+    Note that output dir will be cleared before merging'
+  c.option '-C', '--nocompress', 'Disable Google Closure Compiler/Yahoo Compressor'
+  c.option '-o output', '--output output', 'Directory to output to'
   c.when_called do |args, option|
-    target = args.shift || 'build'
+    files = args.size ? args : ['index.html']
+    output = option.output || 'build'
     project = Uki::Project.new('.')
-    project.build target, :compile => !option.nocompiler
-    say "Build complete at '#{target}'"
+    project.build files, 
+      :compress => !option.nocompress, 
+      :output => output,
+      :images => args.empty?,
+      :clean_output => args.empty?
+      
+    say "Build complete at '#{output}'"
   end
 end
 

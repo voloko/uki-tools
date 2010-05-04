@@ -3,14 +3,19 @@ require 'json'
 module Uki
   
   INCLUDE_REGEXP = %r{((?:^|\n)[^\n]\W|^|\n)\s*include\s*\(\s*['"]([^"']+)["']\s*\)(?:\s*;)?(.*?\r?\n|$)}
-  INCLUDE_STRING_REGEXP = %r{include_string\s*\(\s*['"]([^"']+)["']\s*\)}
+  INCLUDE_CSS_REGEXP = %r{include_css\s*\(\s*['"]([^"']+)["']\s*\)}
   
   #
   # Preprocesses include() calls in js files
-  def self.include_js path, included = {}, stack = []
+  def self.include_js path, included = {}, stack = [], &block
     raise Exception.new("File #{path} not found.\nStack: #{stack.join(' -> ')}") unless File.exists?(path)
     path = File.expand_path path
-    code, base = File.read(path), File.dirname(path)
+    base = File.dirname(path)
+    code = if block_given? 
+      yield path 
+    else 
+      File.read(path) 
+    end
     
     included[path] = true
     code.gsub(INCLUDE_REGEXP) do |match|
@@ -24,13 +29,18 @@ module Uki
           $1 + $3
         end
       end
-    end.gsub(INCLUDE_STRING_REGEXP) do |match|
-      include_string File.join(base, $1)
+    end.gsub(INCLUDE_CSS_REGEXP) do |match|
+      include_css File.join(base, $1), &block
     end
   end
   
-  def self.include_string path
-    JSON.dump File.read(path)
+  def self.include_css path, &block
+    code = if block_given? 
+      yield path 
+    else 
+      File.read(path) 
+    end
+    JSON.dump code
   end
   
   def self.extract_includes path

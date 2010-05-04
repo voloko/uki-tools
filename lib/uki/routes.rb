@@ -1,10 +1,12 @@
+require 'uki/builder'
+
 get %r{\.cjs$} do
   path = request.path.sub(/\.cjs$/, '.js').sub(%r{^/}, './')
   pass unless File.exists? path
   
   response.header['Content-type'] = 'application/x-javascript; charset=UTF-8'
   begin
-    Uki.include_js(path)
+    Uki::Builder.new(path, :optimize => false).code
   rescue Exception => e
     message = e.message.sub(/\n/, '\\n')
     "alert('#{message}')"

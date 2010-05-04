@@ -1,5 +1,4 @@
 require 'sinatra'
-require 'uki/include_js'
 require 'uki/routes'
 
 module Uki
