@@ -43,12 +43,12 @@ class Uki::Project
     end
     cjs.uniq!
     containers.uniq!
+    
     output = to_path(options[:output])
     FileUtils.rm_rf output if options[:clean_output]
     FileUtils.mkdir_p output
     
     cjs.each do |path|
-      p File.join(output, File.basename(path))
       File.open(File.join(output, File.basename(path)), 'w') do |f|
         f.write( Uki::Builder.new(path, :compress => options[:compress]).code )
       end
@@ -156,8 +156,8 @@ class Uki::Project
       FileUtils.cp_r File.join(dest, 'i'), File.join(output, 'i')
     end
   
-    def extract_cjs containers
-      File.read(c).scan(CJS_REGEXP)
+    def extract_cjs container
+      File.read(container).scan(CJS_REGEXP).map { |match| match[0].sub('.cjs', '.js') }
     end
     
     def init_dest

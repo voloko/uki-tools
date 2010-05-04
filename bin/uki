@@ -129,7 +129,7 @@ command :build do |c|
   c.option '-C', '--nocompress', 'Disable Google Closure Compiler/Yahoo Compressor'
   c.option '-o output', '--output output', 'Directory to output to'
   c.when_called do |args, option|
-    files = args.size ? args : ['index.html']
+    files = args.empty? ? ['index.html'] : args
     output = option.output || 'build'
     project = Uki::Project.new('.')
     project.build files, 
