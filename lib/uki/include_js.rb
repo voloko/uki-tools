@@ -24,7 +24,7 @@ module Uki
       else
         include_path = File.expand_path File.join(base, $2)
         unless included[include_path]
-          $1 + include_js(include_path, included, stack + [include_path]) + $3
+          $1 + include_js(include_path, included, stack + [include_path], &block) + $3
         else
           $1 + $3
         end

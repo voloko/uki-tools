@@ -22,7 +22,7 @@ module Uki
     def compressed_code
       unless @compressed_code
         code = Uki.include_js(path) do |path|
-          if path.match(/.css$/)
+          if path.match(/\.css$/)
             compiled_css path
           else
             File.read(path)
