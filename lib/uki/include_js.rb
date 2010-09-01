@@ -40,7 +40,7 @@ module Uki
     else 
       File.read(path) 
     end
-    JSON.dump code
+    (code || '').to_json
   end
   
   def self.extract_includes path
