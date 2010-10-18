@@ -15,10 +15,14 @@ class Uki::Project
     @dest = dest
   end
   
-  def name
-    File.basename File.expand_path(dest)
-  end
+  # def name
+  #   File.basename File.expand_path(dest)
+  # end
   
+  def name
+    File.basename(File.expand_path(dest)).sub(/[^a-z0-9_$]+/, '_')
+  end
+
   def create options
     verify_empty
     init_dest
@@ -161,9 +165,9 @@ class Uki::Project
     end
     
     def init_dest
-      FileUtils.mkdir_p File.join(dest, project_name)
-      ['view', 'model', 'layout', 'controller'].each do |name| 
-        FileUtils.mkdir_p File.join(dest, project_name, name)
+      FileUtils.mkdir_p File.join(dest, name)
+      ['view', 'model', 'layout', 'controller'].each do |n| 
+        FileUtils.mkdir_p File.join(dest, name, n)
       end
     end
     
@@ -171,25 +175,21 @@ class Uki::Project
       File.open(File.join(dest, 'index.html'), 'w') do |f|
         f.write template('index.html').result(binding)
       end
-      File.open(File.join(dest, "#{project_name}.js"), 'w') do |f|
+      File.open(File.join(dest, "#{name}.js"), 'w') do |f|
         f.write template('myapp.js').result(binding)
       end
       
-      create_function 'layout.js', "#{project_name}.layout.main"
+      create_function 'layout.js', "#{name}.layout.main"
       
-      ['view', 'model', 'layout', 'controller'].each do |name|
-        File.open(File.join(dest, project_name, "#{name}.js"), 'w') do |f|
-          package_name = "#{project_name}.#{name}"
+      ['view', 'model', 'layout', 'controller'].each do |n|
+        File.open(File.join(dest, name, "#{n}.js"), 'w') do |f|
+          package_name = "#{name}.#{n}"
           f.write template('package.js').result(binding)
         end
       end
       
     end
     
-    def project_name
-      File.basename dest
-    end
-  
     def copy_frameworks
       FileUtils.mkdir_p File.join(dest, 'frameworks')
       frameworks_dest = File.join(dest, 'frameworks', 'uki')

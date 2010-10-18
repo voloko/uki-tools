@@ -1,6 +1,6 @@
 (function() {
 // define namespace
-<%= project_name %> = {};
+<%= name %> = {};
 
 // all core modules
 include('frameworks/uki/uki-core.js');
@@ -34,7 +34,7 @@ uki.theme.airport.imagePath = 'i/';
 // skip interface creation if we're testing
 if (window.TESTING) return;
 
-<%= project_name %>.layout.main().attachTo(window, '300 62');
+<%= name %>.layout.main().attachTo(window, '300 62');
 
 uki('Button').click(function() {
     alert(this.text());

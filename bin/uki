@@ -148,7 +148,7 @@ command :ie_images do |c|
   c.description = 'Creates image files for IE6,7 from
     data urls in the theme file.
     
-    [file] defaults to <project_name>/theme.js
+    [file] defaults to <name>/theme.js
   '
   c.when_called do |args, option|
     project = Uki::Project.new('.')
